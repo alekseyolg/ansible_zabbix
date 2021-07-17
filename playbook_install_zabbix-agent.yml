@@ -1,0 +1,7 @@
+---
+- name: Install zabbix-agent V5
+  hosts: all
+  become: yes
+ 
+  roles:
+    - install_package_zabbix-agent
