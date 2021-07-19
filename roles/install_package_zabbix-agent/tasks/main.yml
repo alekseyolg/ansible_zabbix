@@ -1,2 +1,25 @@
 ---
 # tasks file for install_package_zabbix-agent
+#
+- block:
+   - block:
+      - name: Install packages
+        yum:
+          name: "{{ packages }}"
+        vars:
+          packages:
+            - sysstat
+            - https://repo.zabbix.com/zabbix/5.0/rhel/7/x86_64/zabbix-agent-5.0.3-1.el7.x86_64.rpm
+       
+
+
+     when: ansible_distribution_major_version == "7" 
+
+
+  - name: Enable zabbix-agent
+    service: name=zabbix-agent state=started enabled=yes  
+  - name: Create directory for zabbix-scripts
+    file: path=/etc/zabbix/zabbix_scripts mode=771 owner=zabbix group=zabbix state=directory
+  
+  when: ansible_distribution == "CentOS"
+
